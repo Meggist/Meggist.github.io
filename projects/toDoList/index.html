@@ -2,256 +2,29 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&display=swap" rel="stylesheet">
-    <title>toDoList</title>
+    <title>Liza</title>
 </head>
 <body>
-    <style>
-.title{
-    display: inline-block;
-    width: 768px;
-    font-family: 'Montserrat', sans-serif;
-    color: #0A65FF;
-    font-size: 170px;
-    text-align: center;
-    padding: 0;
-}
-
-.form{
-    margin-top: 15px;
-    width: 560px;
-    padding: 20px;
-    font-size: 40px;
-    font-family: 'Montserrat', sans-serif;
-}
-
-.button{
-    font-size: 50px;
-    padding: 10px;
-    background: #EBEEFF;
-}
-
-.forms{
-    display: flex;
-    flex-direction: column;
-}
-
-.deleteList{
-    border: none;
-    border-radius: 15px;
-    font-family: 'Montserrat', sans-serif;
-    margin-top: 10px;
-    background: red;
-    width: 150px;
-    height: 50px;
-}
-
-.wholeForm{
-    display: flex;
-    align-items: center;
-}
-
-.deleteButton{
-    float: right;
-    width: 150px;
-    height: 60px;
-    text-align: center;
-    color: red;
-    background: white;
-    border: none;
-    font-size: 30px;
-    font-weight:bold;
-    margin-right: 10px;
-    font-family: 'Montserrat', sans-serif;
-}
-
-.formTitle{
-    text-align: center;
-    font-size: 65px;
-    color: #0A65FF;
-    font-family: 'Montserrat', sans-serif;
-}
-
-body{
-    align-items: center;
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    background: #050A24;
-}
-
-.task{
-    border-radius: 15px;
-    margin-top: 10px;
-    padding: 10px 0;;
-    height: 50px;
-    text-align: center;
-    width: 650px;
-    background: white;
-    font-size: 40px;
-    color: black;
-    font-family: 'Montserrat', sans-serif;
-}
-
-.list{
-    list-style-type: none;
-}
-    </style>
-<div class="title" >ToDo list</div>
-    <div class="formTitle">Напишите ваше задание</div>
-
-   <div class="forms">
-        <input type="text" id="value" class="form" name="getValue" />
-        <input type="button" class="button"  id="conf" value="Добавить" onclick="addTask()">
-       </div>
-        <input type="button" id="deleteList" class="deleteList" value="Очистить список" onclick="deleteList()">
-
-    <ol id = "demo" class="list">
-
-    </ol>
-
+<style>
+    body{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
+<div class="first">
+    <input type="text" id="number">
+    <div id="res"></div>
+</div>
+    <div><input type="button" class="button" value="Посчитать" onclick="result()">
+    </div>
 <script>
-  //(function create())
-//localStorage.clear();
-
-//alert(localStorage.getItem('numId'))
-
-
-console.log(localStorage)
-    let objCopy = {}; // objCopy будет хранить копию mainObj
-
-    for (let key in localStorage) {
-
-        if (!localStorage.hasOwnProperty(key)) {
-            continue; // пропустит такие ключи, как "setItem", "getItem" и так далее
-        }
-
-        if (key === 'numId') {
-            continue;
-        }
-
-        objCopy[key] = localStorage[key]; // копирует каждое свойство objCopy
+    function result() {
+        let number = document.getElementById('number').value;
+        alert(+number)
+        let res = (+number/20) * 100;
+        document.getElementById('res').innerHTML = `Результат: ${res}`
     }
-
-
-
-let arr = Object.values(objCopy);
-arr.sort((a,b) => {
-    if( typeof a[0] === 'number'){ return a[0] - b[0]}
-})
-    .forEach((i,index) => addTask(index, i))
-
-
-console.log(arr);
-
-  /* for(let key in localStorage) {
-        if (!localStorage.hasOwnProperty(key)) {
-            continue; // пропустит такие ключи, как "setItem", "getItem" и так далее
-        }
-
-        if (key === 'numId') {
-            continue;
-        }
-        //alert(key);
-        //alert(typeof localStorage.getItem(key));
-        //alert(`${key}: ${localStorage.getItem(key)}`);
-        //alert(key);
-        addTask(key,localStorage.getItem(key));
-    }*/
-
-
-
-function addTask(idElem, text){
-    //if (document.getElementById('value').value !== '')
-    //alert(idElem)
-    //alert(text)
-    if ( idElem ) {return  add(idElem, text)}
-
-    let id = localStorage.getItem('numId');
-
-    if ( id === null) { id = 0;  return add(id, text)}
-    return add(++id, text);
-
-}
-
-function add(id, text){
-    //id++;
-    //alert(id);
-    //alert(text)
-    if( typeof text !== 'undefined'){ return body(text)}
-
-
-    let task = document.getElementById('value').value;
-     body(task);
-     saveAtStorage(id,task);
-
-    function body(text) {
-        let node = document.createElement("LI");
-        node.id = id.toString();
-        node.className = "task";
-        let textNode = document.createTextNode(text);
-        node.appendChild(textNode);
-
-        let deleteButton = document.createElement('input')
-        deleteButton.setAttribute('type', 'button');
-        deleteButton.setAttribute('value', 'Удалить');
-        deleteButton.id = id.toString();
-        deleteButton.onclick = deleteTask;
-        deleteButton.className = "deleteButton";
-
-        document.getElementById("demo").appendChild(node).appendChild(deleteButton);
-
-        //localStorage.setItem(`${id.toString()}`, text);
-        //localStorage.setItem('numId', id.toString());
-
-        document.getElementById('value').value = '';
-
-    }
-}
-
-function saveAtStorage(id,text){
-    localStorage.setItem(`${id.toString()}`, text);
-    localStorage.setItem('numId', id.toString());
-}
-
-
-
-function deleteTask (){
-    document.getElementById(this.id).remove();
- 
-
-    let target = arr[this.id]
-        let i = localStorage.length;
-        while (i-- > 0) {
-            let key = localStorage.key(i);
-            if (localStorage.getItem(key) === target) {
-                localStorage.removeItem(key);
-            }
-        }
-
-
-}
-
-(function keyEnter() {
-    document.getElementById('value').addEventListener('keydown', function(e) {
-        if (e.keyCode === 13) {
-            // можете делать все что угодно со значением текстового поля
-            addTask();
-        }
-    });
-})();
-
-function deleteList(){
-    localStorage.clear();
-    let elems = document.getElementsByTagName("LI");
-    let el;
-    while ((el = elems[0])) {
-        el.parentNode.removeChild(el);
-    }
-}
-
-
 </script>
 </body>
 </html>
